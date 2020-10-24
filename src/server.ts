@@ -7,7 +7,7 @@ import * as routes from './routes.json';
 dotenv.config();
 const server = jsonServer.create();
 const router = jsonServer.router('./db.json');
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // genData();
 server.use(jsonServer.bodyParser);
