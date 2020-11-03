@@ -1,24 +1,24 @@
 {
-  "api": [
+  "order": [
     {
-      "url": "localhost:3000/api/produtoxyz12345",
-      "status": "confirmado",
+      "buyer": {
+        "cpf": "000.000.000-00",
+        "email": "rob.dias@gmail.com",
+        "first_name": "Roberto",
+        "last_name": "Dias",
+        "phone": "(11) 99999-9999"
+      },
+      "items": [
+        {
+          "item_title": "batata doce",
+          "quantity": 2.1626,
+          "unit_price": 3.69
+        }
+      ],
+      "order_ref": "pedido-qualquer-123",
+      "total": 7.98,
+      "wallet": "mercadopago",
       "id": 1
-    },
-    {
-      "url": "localhost:3000/api/produtoxyz1234556565",
-      "status": "em andamento",
-      "id": 2
-    },
-    {
-      "url": "localhost:3000/api/produtoxyz12345565653434323",
-      "status": "não pago",
-      "id": 3
-    },
-    {
-      "url": "localhost:3000/api/produtoxyz12345565653qweqwew434323",
-      "status": "pago",
-      "id": 4
     }
   ]
 }
