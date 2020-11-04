@@ -25,11 +25,6 @@ const phoneValidation = keystring => {
   return phone.test(keystring);
 };
 
-const itemValidation = keystring => {
-  const item_title = /^[a-z ,.'-]+$/i;
-  return item_title.test(keystring);
-};
-
 const walletValidation = keystring => {
   const wallet =  /(?:pix|mercadopago|picpay|ame|pagseguro|cielo)/;
   return wallet.test(keystring);
@@ -44,13 +39,25 @@ const orderefValidation = keystring => {
    return false;
 };
 
-const itemsListValidation = keystring => {
-  const item_title = /^[a-z ,.'-]+$/i;
-  return item_title.test(keystring);
+const itemsOrderValidation = keystring => {
+  const items =  /^.{1,255}$/;
+  return items.test(keystring);
 };
+
 
 const middlewareValidateDict = (req, res, next) => {
   if (req.method === 'POST') {
+    let itemsValidation:Boolean = true;
+    let total = 0;
+    req.body.items.map((item) => {
+      total +=item.quantity*item.unit_price;
+      console.log(item);
+      if(!itemsOrderValidation(item.item_title)) {
+        itemsValidation = false;
+      }
+      console.log(itemsValidation);
+      console.log(total)
+    })
     if (
       cpfValidation(req.body.buyer.cpf) &&
       emailValidation(req.body.buyer.email) &&
@@ -58,7 +65,9 @@ const middlewareValidateDict = (req, res, next) => {
       surnameValidation(req.body.buyer.last_name) &&
       phoneValidation(req.body.buyer.phone) &&
       orderefValidation(req.body.order_ref) &&
-      walletValidation(req.body.wallet) 
+      walletValidation(req.body.wallet) &&
+      itemsValidation &&
+      total
       
     ) {
       next();
