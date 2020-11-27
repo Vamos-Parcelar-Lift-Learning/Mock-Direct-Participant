@@ -47,32 +47,41 @@ const itemsOrderValidation = keystring => {
 
 const middlewareValidateDict = (req, res, next) => {
   if (req.method === 'POST') {
-    let itemsValidation:Boolean = true;
-    let total = 0;
-    req.body.items.map((item) => {
-      total +=item.quantity*item.unit_price;
-      console.log(item);
-      if(!itemsOrderValidation(item.item_title)) {
-        itemsValidation = false;
+    try{
+      let itemsValidation:Boolean = true;
+      let total = 0;
+      req.body.items.map((item) => {
+        total +=item.quantity*item.unit_price;
+        // console.log(item);
+        if(!itemsOrderValidation(item.item_title)) {
+          itemsValidation = false;
+        }
+        // console.log(itemsValidation);
+        // console.log(total)
+      })
+     
+      if (
+        cpfValidation(req.body.buyer.cpf) &&
+        emailValidation(req.body.buyer.email) &&
+        nameValidation(req.body.buyer.first_name) &&
+        surnameValidation(req.body.buyer.last_name) &&
+        phoneValidation(req.body.buyer.phone) &&
+        orderefValidation(req.body.order_ref) &&
+        walletValidation(req.body.wallet) &&
+        itemsValidation &&
+        total
+        
+      ) {
+        next();
+      } else {
+        res.status(400).json({ erro: 'Corpo da requisição está incorreto!' });
       }
-      console.log(itemsValidation);
-      console.log(total)
-    })
-    if (
-      cpfValidation(req.body.buyer.cpf) &&
-      emailValidation(req.body.buyer.email) &&
-      nameValidation(req.body.buyer.first_name) &&
-      surnameValidation(req.body.buyer.last_name) &&
-      phoneValidation(req.body.buyer.phone) &&
-      orderefValidation(req.body.order_ref) &&
-      walletValidation(req.body.wallet) &&
-      itemsValidation &&
-      total
-      
-    ) {
-      next();
-    } else {
-      res.json({ erro: 'Chave com formato inválido!' });
+    } catch(error) {
+      if(!JSON.stringify(res.body)){
+        res.status(401).json({ erro: 'Corpo da requisição não foi enviado!' });
+      } else{
+        res.status(500).json({ erro: 'Error!' });
+      }  
     }
   } else {
     next();
