@@ -3,22 +3,39 @@
 import { Encoder, QRByte, QRKanji, ErrorCorrectionLevel } from '@nuintun/qrcode';
 // decoder
 import { Decoder } from '@nuintun/qrcode';
-const orderResponse = (req, res, next) => {
+import { sign } from '../services/keystore/sign';
+const orderResponse = async (req, res, next) => {
     console.log(`Nova requisição recebida: ${req.method}`);
 
-    const qrcode = new Encoder();
+    if(req.method === 'POST'){
+        const resTest = {
+            body: {
+                first_name: req.body.buyer.first_name,
+            }
+        }
 
-    qrcode.write('PIXVP');
-    qrcode.make();
-    console.log('qrcodeBruto', qrcode)
+        console.log(resTest);
 
-    const responseFinal = {
-        order_id: 5,
-        qrcode: qrcode.toDataURL(5, 5),
-        qr_code_text: "texto_qr_code",
-        status: "pending"
+        const url = await sign(resTest);
+        res.json(url);
+        next();
+    } else {
+        next();
     }
-    res.json(responseFinal)
+
+    // const qrcode = new Encoder();
+
+    // qrcode.write('PIXVP');
+    // qrcode.make();
+    // console.log('qrcodeBruto', qrcode)
+
+    // const responseFinal = {
+    //     order_id: 5,
+    //     qrcode: qrcode.toDataURL(5, 5),
+    //     qr_code_text: "texto_qr_code",
+    //     status: "pending"
+    // }
+    // res.json(responseFinal)
 
 };
 
