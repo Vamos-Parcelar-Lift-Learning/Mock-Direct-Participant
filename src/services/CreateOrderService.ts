@@ -42,7 +42,7 @@ class CreateUserService {
     const payload = payloadsRepository.create({
       calendario: {
         recebivelAposVencimento: false,
-        expiracao: today,
+        expiracao: today
       },
       devedor: {
         cpf: data.buyer.cpf,

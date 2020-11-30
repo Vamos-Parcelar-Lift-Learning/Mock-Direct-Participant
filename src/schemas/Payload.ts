@@ -4,6 +4,7 @@ import {
   Entity,
   ObjectIdColumn,
 } from 'typeorm';
+import Calendar from './Calendar';
 
 @Entity('payloads')
 class Payload {
@@ -11,7 +12,7 @@ class Payload {
   id: ObjectID;
 
   @Column()
-  calendario: Object;
+  calendario: Calendar;
 
   @Column()
   devedor: Object;
@@ -28,5 +29,6 @@ class Payload {
   @Column()
   versao: string;
 }
+
 
 export default Payload;
