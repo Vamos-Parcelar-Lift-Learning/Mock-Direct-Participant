@@ -1,10 +1,12 @@
 import {
   Column,
-  ObjectID,
   Entity,
   ObjectIdColumn,
 } from 'typeorm';
 import Calendar from './Calendar';
+import Debtor from './Debtor';
+import Value from './Value';
+import { ObjectID } from 'mongodb';
 
 @Entity('payloads')
 class Payload {
@@ -15,10 +17,10 @@ class Payload {
   calendario: Calendar;
 
   @Column()
-  devedor: Object;
+  devedor: Debtor;
 
   @Column()
-  valor: Object;
+  valor: Value;
 
   @Column()
   chave: string;

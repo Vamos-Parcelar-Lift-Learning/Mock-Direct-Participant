@@ -5,9 +5,21 @@ import AppError from '../errors/AppError';
 import Order from '../schemas/Order';
 import Payload from '../schemas/Payload';
 
+interface Item {
+  item_title: string;
+  quantity: number;
+  unit_price: Double;
+}
+
 interface Request {
-  buyer: Object;
-  items: Object[];
+  buyer: {
+    cpf: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    phone: string;
+  };
+  items: Item[];
   order_ref: string;
   total: Double;
   wallet: string;
@@ -52,7 +64,7 @@ class CreateUserService {
         original: data.total,
       },
       chave: '30.322.074/0001-05',
-      txId: String(Math.floor(Math.random() * 100000000000000000000000000000000000)),
+      txId: 'String(Math.floor(Math.random() * 100000000000000000000000000000000000))',
       versao: '1.0.0',
     })
 
@@ -67,7 +79,7 @@ class CreateUserService {
     qrcode.make();
 
     return {
-      order_id,
+      order_id: (order_id as unknown) as string,
       qrcode: qrcode.toDataURL(5, 5),
       qr_code_text: url,
       status

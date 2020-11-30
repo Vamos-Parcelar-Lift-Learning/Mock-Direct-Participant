@@ -1,12 +1,12 @@
 import {
   Column,
-  ObjectID,
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
   ObjectIdColumn,
-  Double,
 } from 'typeorm';
+import { Double, ObjectID } from 'mongodb';
+import Item from './Item';
 
 @Entity('orders')
 class Order {
@@ -29,7 +29,7 @@ class Order {
   total_order: Double;
 
   @Column()
-  items: Object[];
+  items: Item[];
 
   @CreateDateColumn()
   created_at: Date;
