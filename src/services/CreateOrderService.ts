@@ -58,7 +58,8 @@ class CreateUserService {
 
     const { id } = await payloadsRepository.save(payload);
 
-    const url = `http://localhost:3333/payloads/${id}`
+    const url = `${process.env.URL_PAYLOAD}/${id}`
+    console.log('urlEnv', url)
 
     const qrcode = new Encoder();
 
@@ -67,7 +68,7 @@ class CreateUserService {
 
     return {
       order_id,
-      qrcode:  qrcode.toDataURL(5, 5),
+      qrcode: qrcode.toDataURL(5, 5),
       qr_code_text: url,
       status
     };
