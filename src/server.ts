@@ -1,17 +1,35 @@
-import * as dotenv from 'dotenv';
-import * as jsonServer from 'json-server';
-import * as routes from './routes.json';
-import middlewares from './middlewares';
+import 'reflect-metadata';
 
-dotenv.config();
-const server = jsonServer.create();
-const router = jsonServer.router('./db.json');
-const port = process.env.PORT || 3000;
+import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
 
-server.use(jsonServer.bodyParser);
-server.use(jsonServer.rewriter(routes));
-server.use(middlewares);
-server.use(router);
-server.listen(port, () => {
-  console.log(`Mock direct participant is running on port ${port}`);
+import routes from './routes';
+import AppError from './errors/AppError';
+
+import './database';
+
+const app = express();
+
+app.use(express.json());
+
+app.use(routes);
+
+app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
+  if (err instanceof AppError) {
+    return response.status(err.statusCode).json({
+      status: 'error',
+      message: err.message,
+    });
+  }
+
+  console.error(err);
+
+  return response.status(500).json({
+    status: 'error',
+    message: 'Internal server error.',
+  });
+});
+
+app.listen(3333, () => {
+  console.log('Server started on port 3333!');
 });

@@ -1,0 +1,13 @@
+[
+  {
+    "name": "mongo",
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "database": "shipay",
+    "useUnifiedTopology": true,
+    "entities": [
+      "./src/schemas/*.ts"
+    ]
+  }
+]

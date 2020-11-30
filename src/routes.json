@@ -1,6 +1,0 @@
-{
-    "/teste/rota": "/teste",
-    "/teste/rota/:key": "/teste/:key",
-    "/order/:key": "/order?Key=:key"
-  }
-  
