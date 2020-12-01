@@ -64,7 +64,7 @@ class CreateUserService {
         original: data.total,
       },
       chave: '30.322.074/0001-05',
-      txId: 'String(Math.floor(Math.random() * 100000000000000000000000000000000000))',
+      txId: String(Math.floor(Math.random() * 100000000000000000000000000000000000)),
       versao: '1.0.0',
     })
 
