@@ -9,7 +9,6 @@ export default function ensureAuthenticated(
   next: NextFunction,
 ): void {
   const authHeader = request.headers.authorization;
-  console.log('algo', authHeader);
 
   if (!authHeader) {
     throw new AppError('JWT token is missing', 401);
@@ -17,9 +16,7 @@ export default function ensureAuthenticated(
 
   // const [, token] = authHeader.split(' ');
   // console.log('token', token);
-  console.log('secret', authConfig.secret)
 
-  // if (token !== authConfig.secret) throw new AppError('Inavlid token', 401)
   if (authHeader !== authConfig.secret) throw new AppError('Inavlid token', 401)
 
   return next();
