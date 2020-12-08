@@ -2,11 +2,11 @@ import {
   Column,
   Entity,
   ObjectIdColumn,
+  ObjectID
 } from 'typeorm';
 import Calendar from './Calendar';
 import Debtor from './Debtor';
 import Value from './Value';
-import { ObjectID } from 'mongodb';
 
 @Entity('payloads')
 class Payload {

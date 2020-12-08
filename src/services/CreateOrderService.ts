@@ -1,7 +1,6 @@
 import { getMongoRepository, Double } from 'typeorm';
 import { Encoder } from '@nuintun/qrcode';
 
-import AppError from '../errors/AppError';
 import Order from '../schemas/Order';
 import Payload from '../schemas/Payload';
 
@@ -23,9 +22,10 @@ interface Request {
   order_ref: string;
   total: Double;
   wallet: string;
+  callback_url: string;
 }
 
-interface Response {
+interface IResponse {
   order_id: string;
   qrcode: string;
   qr_code_text: string;
@@ -33,7 +33,7 @@ interface Response {
 }
 
 class CreateUserService {
-  public async execute(data: Request): Promise<Response> {
+  public async execute(data: Request): Promise<IResponse> {
     const ordersRepository = getMongoRepository(Order, 'mongo');
     const payloadsRepository = getMongoRepository(Payload, 'mongo')
 
@@ -43,7 +43,8 @@ class CreateUserService {
       paid_amount: data.total,
       status: 'pending',
       total_order: data.total,
-      wallet: data.wallet
+      wallet: data.wallet,
+      callback_url: data.callback_url,
     });
 
     const { id: order_id, status } = await ordersRepository.save(store);
