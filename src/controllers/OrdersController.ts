@@ -5,6 +5,8 @@ import * as yup from 'yup';
 import Order from '../schemas/Order';
 import CreateOrderService from '../services/CreateOrderService';
 import AppError from '../errors/AppError';
+import updateState from '../utils/updateState';
+import { ObjectID } from 'mongodb';
 
 export default class StoresController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -37,7 +39,7 @@ export default class StoresController {
       total,
       wallet } = request.body;
 
-    await payloadValidationSchema.validate({
+    payloadValidationSchema.validate({
       buyer,
       items,
       order_ref,
@@ -55,6 +57,9 @@ export default class StoresController {
       wallet
     })) {
       const order = await createOrder.execute(request.body);
+
+      const { order_id } = order
+      setTimeout(updateState, 5000, order_id)
 
       return response.status(200).json({ ...order });
 

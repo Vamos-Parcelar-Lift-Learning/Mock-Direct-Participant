@@ -4,8 +4,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ObjectIdColumn,
+  ObjectID
 } from 'typeorm';
-import { Double, ObjectID } from 'mongodb';
+import { Double } from 'mongodb';
 import Item from './Item';
 
 @Entity('orders')
@@ -27,6 +28,9 @@ class Order {
 
   @Column()
   total_order: Double;
+
+  @Column()
+  callback_url: string;
 
   @Column()
   items: Item[];
