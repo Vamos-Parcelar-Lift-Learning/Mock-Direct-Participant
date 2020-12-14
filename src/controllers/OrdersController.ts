@@ -1,14 +1,18 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/camelcase */
 import { Request, Response } from 'express';
 import { getMongoRepository } from 'typeorm';
 import * as yup from 'yup';
 
 import Order from '../schemas/Order';
-import CreateOrderService from '../services/CreateOrderService';
 import AppError from '../errors/AppError';
 import updateState from '../utils/updateState';
+
 import ORMOrderRepository from '../repositories/implementations/ORMOrderRepository';
 import ORMPayloadRepository from '../repositories/implementations/ORMPayloadRepository';
+
+import ShowOrderService from '../services/ShowOrderService';
+import CreateOrderService from '../services/CreateOrderService';
 
 export default class StoresController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -100,18 +104,11 @@ export default class StoresController {
   public async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const ordersRepository = getMongoRepository(Order, 'mongo');
+    const orderRepository = new ORMOrderRepository();
+    const orderService = new ShowOrderService(orderRepository);
 
-    try {
-      const order = await ordersRepository.findOne(id);
+    const transaction = await orderService.execute(id);
 
-      if (!order) {
-        throw new AppError('Order not found.', 404);
-      }
-
-      return response.json(order);
-    } catch {
-      throw new AppError('Id out of expected format.', 400);
-    }
+    return response.status(200).json(transaction);
   }
 }

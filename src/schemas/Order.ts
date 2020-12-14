@@ -6,7 +6,6 @@ import {
   ObjectIdColumn,
   ObjectID,
 } from 'typeorm';
-
 import { Double } from 'mongodb';
 import Item from './Item';
 

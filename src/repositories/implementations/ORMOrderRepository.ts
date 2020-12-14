@@ -27,6 +27,12 @@ class ORMOrderRepository implements IOrderRepository {
 
     return order;
   }
+
+  public async findById(orderId: string): Promise<Order | undefined> {
+    const user = await this.ormRepository.findOne(orderId);
+
+    return user;
+  }
 }
 
 export default ORMOrderRepository;
