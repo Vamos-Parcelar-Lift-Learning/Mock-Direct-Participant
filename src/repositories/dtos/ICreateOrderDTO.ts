@@ -1,5 +1,4 @@
 import { Double } from 'mongodb';
-import Item from '../../dtos/IItemDTO';
 
 interface IItem {
   item_title: string;

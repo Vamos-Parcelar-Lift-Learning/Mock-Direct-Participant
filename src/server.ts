@@ -3,7 +3,7 @@ import 'express-async-errors';
 
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 
 import routes from './routes';
 import AppError from './errors/AppError';
@@ -14,12 +14,12 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 
 app.use(routes);
 
-app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
+app.use((err: Error, request: Request, response: Response) => {
   if (err instanceof AppError) {
     return response.status(err.statusCode).json({
       status: 'error',

@@ -1,11 +1,8 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/camelcase */
 import { Request, Response } from 'express';
-import { getMongoRepository } from 'typeorm';
 import * as yup from 'yup';
 
-import Order from '../schemas/Order';
-import AppError from '../errors/AppError';
 import updateState from '../utils/updateState';
 
 import ORMOrderRepository from '../repositories/implementations/ORMOrderRepository';

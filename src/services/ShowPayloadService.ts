@@ -1,4 +1,3 @@
-import Payload from '../schemas/Payload';
 import AppError from '../errors/AppError';
 import IPayloadRepository from '../repositories/IPayloadRepository';
 import { sign } from '../utils/keystore/sign.js';
