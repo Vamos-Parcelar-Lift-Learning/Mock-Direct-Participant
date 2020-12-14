@@ -4,8 +4,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ObjectIdColumn,
-  ObjectID
+  ObjectID,
 } from 'typeorm';
+
 import { Double } from 'mongodb';
 import Item from './Item';
 
