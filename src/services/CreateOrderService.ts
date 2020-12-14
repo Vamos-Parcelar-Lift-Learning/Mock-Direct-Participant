@@ -3,19 +3,16 @@
 import { Double } from 'mongodb';
 import { Encoder } from '@nuintun/qrcode';
 
-import { getMongoRepository } from 'typeorm';
-import Order from '../schemas/Order';
-import Payload from '../schemas/Payload';
-
 import IOrderRepository from '../repositories/IOrderRepository';
+import IPayloadRepository from '../repositories/IPayloadRepository';
 
-interface Item {
+interface IItem {
   item_title: string;
   quantity: number;
   unit_price: Double;
 }
 
-interface Request {
+interface IRequest {
   buyer: {
     cpf: string;
     email: string;
@@ -23,7 +20,7 @@ interface Request {
     last_name: string;
     phone: string;
   };
-  items: Item[];
+  items: IItem[];
   order_ref: string;
   total: Double;
   wallet: string;
@@ -40,14 +37,17 @@ interface IResponse {
 class CreateUserService {
   private orderRepository: IOrderRepository;
 
-  constructor(orderRepository: IOrderRepository) {
+  private payloadRepository: IPayloadRepository;
+
+  constructor(
+    orderRepository: IOrderRepository,
+    payloadRepository: IPayloadRepository,
+  ) {
     this.orderRepository = orderRepository;
+    this.payloadRepository = payloadRepository;
   }
 
-  async execute(data: Request): Promise<IResponse> {
-    // const ordersRepository = getMongoRepository(Order, 'mongo');
-    const payloadsRepository = getMongoRepository(Payload, 'mongo');
-
+  async execute(data: IRequest): Promise<IResponse> {
     const store = await this.orderRepository.create({
       external_id: data.order_ref,
       items: data.items,
@@ -63,7 +63,7 @@ class CreateUserService {
     const today = new Date();
     today.setHours(today.getHours() + 1);
 
-    const payload = payloadsRepository.create({
+    const payload = await this.payloadRepository.create({
       calendario: {
         recebivelAposVencimento: false,
         expiracao: today,
@@ -82,7 +82,7 @@ class CreateUserService {
       versao: '1.0.0',
     });
 
-    const { id } = await payloadsRepository.save(payload);
+    const { id } = await this.payloadRepository.save(payload);
 
     const url = `${process.env.URL_PAYLOAD}/${id}`;
     console.log('urlEnv', url);

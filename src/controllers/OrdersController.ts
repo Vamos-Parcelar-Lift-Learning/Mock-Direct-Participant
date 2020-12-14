@@ -7,12 +7,18 @@ import Order from '../schemas/Order';
 import CreateOrderService from '../services/CreateOrderService';
 import AppError from '../errors/AppError';
 import updateState from '../utils/updateState';
-import ORMOrderrepository from '../repositories/implementations/ORMOrderRepository';
+import ORMOrderRepository from '../repositories/implementations/ORMOrderRepository';
+import ORMPayloadRepository from '../repositories/implementations/ORMPayloadRepository';
 
 export default class StoresController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const orderRepository = new ORMOrderrepository();
-    const orderService = new CreateOrderService(orderRepository);
+    const orderRepository = new ORMOrderRepository();
+    const payloadRepository = new ORMPayloadRepository();
+
+    const orderService = new CreateOrderService(
+      orderRepository,
+      payloadRepository,
+    );
 
     const payloadValidationSchema = yup.object().shape({
       buyer: yup.object().shape({
