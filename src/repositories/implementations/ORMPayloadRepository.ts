@@ -24,6 +24,12 @@ class ORMOrderRepository implements IPayloadRepository {
 
     return payload;
   }
+
+  public async findById(orderId: string): Promise<Payload | undefined> {
+    const user = await this.ormRepository.findOne(orderId);
+
+    return user;
+  }
 }
 
 export default ORMOrderRepository;

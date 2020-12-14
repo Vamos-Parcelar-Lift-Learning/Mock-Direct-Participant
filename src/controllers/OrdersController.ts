@@ -107,8 +107,8 @@ export default class StoresController {
     const orderRepository = new ORMOrderRepository();
     const orderService = new ShowOrderService(orderRepository);
 
-    const transaction = await orderService.execute(id);
+    const order = await orderService.execute(id);
 
-    return response.status(200).json(transaction);
+    return response.status(200).json(order);
   }
 }

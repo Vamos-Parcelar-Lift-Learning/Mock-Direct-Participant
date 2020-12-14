@@ -3,8 +3,8 @@ import { Router } from 'express';
 import PayloadsController from '../controllers/PayloadsController';
 
 const usersRouter = Router();
-const usersController = new PayloadsController();
+const payloadController = new PayloadsController();
 
-usersRouter.get('/:id', usersController.show);
+usersRouter.get('/:id', payloadController.show);
 
 export default usersRouter;
