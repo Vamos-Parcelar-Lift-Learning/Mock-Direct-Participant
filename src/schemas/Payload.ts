@@ -1,9 +1,4 @@
-import {
-  Column,
-  Entity,
-  ObjectIdColumn,
-  ObjectID
-} from 'typeorm';
+import { Column, Entity, ObjectIdColumn, ObjectID } from 'typeorm';
 import Calendar from './Calendar';
 import Debtor from './Debtor';
 import Value from './Value';
@@ -31,6 +26,5 @@ class Payload {
   @Column()
   versao: string;
 }
-
 
 export default Payload;

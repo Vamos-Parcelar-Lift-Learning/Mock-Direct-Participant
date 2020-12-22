@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios';
-import Order from "../schemas/Order";
 import { getMongoRepository, ObjectID } from 'typeorm';
+import Order from '../schemas/Order';
 
-async function updateState (order_id: ObjectID) {
+async function updateState(order_id: ObjectID) {
   const orderRepository = getMongoRepository(Order, 'mongo');
   try {
     const order = await orderRepository.findOne(order_id);
@@ -12,12 +13,12 @@ async function updateState (order_id: ObjectID) {
       return;
     }
 
-    order.status = "approved";
+    order.status = 'approved';
     order.updated_at = new Date();
     await orderRepository.save(order);
     console.log(`Status da order ${order_id} alterado para aprovado `);
 
-    console.log('Requisitando POST em callback_url', order.callback_url)
+    console.log('Requisitando POST em callback_url', order.callback_url);
     await axios.post(order.callback_url, { order_id });
     console.log('Requisição POST feita no backend com sucesso');
   } catch (error) {
@@ -25,4 +26,4 @@ async function updateState (order_id: ObjectID) {
   }
 }
 
-export default updateState
+export default updateState;

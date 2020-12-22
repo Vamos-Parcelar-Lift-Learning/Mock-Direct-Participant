@@ -17,7 +17,8 @@ export default function ensureAuthenticated(
   // const [, token] = authHeader.split(' ');
   // console.log('token', token);
 
-  if (authHeader !== authConfig.secret) throw new AppError('Inavlid token', 401)
+  if (authHeader !== authConfig.secret)
+    throw new AppError('Inavlid token', 401);
 
   return next();
 }
