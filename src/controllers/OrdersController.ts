@@ -30,14 +30,8 @@ export default class StoresController {
             /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/,
           ),
         email: yup.string().email().required(),
-        first_name: yup
-          .string()
-          .required()
-          .matches(/^[a-zA-Z ,.'-]+$/i),
-        last_name: yup
-          .string()
-          .required()
-          .matches(/^[a-zA-Z ,.'-]+$/i),
+        first_name: yup.string().required(),
+        last_name: yup.string().required(),
         phone: yup
           .string()
           .required()
