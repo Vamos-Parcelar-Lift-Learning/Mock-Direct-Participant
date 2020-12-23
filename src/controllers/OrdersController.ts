@@ -29,12 +29,7 @@ export default class StoresController {
           .matches(
             /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/,
           ),
-        email: yup
-          .string()
-          .required()
-          .matches(
-            /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$/,
-          ),
+        email: yup.string().email().required(),
         first_name: yup
           .string()
           .required()
@@ -95,7 +90,7 @@ export default class StoresController {
 
       return response.status(200).json({ ...order });
     }
-    return response.status(400).json({ error: 'Body out of format' });
+    return response.status(400).json({ message: 'Body out of format' });
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
